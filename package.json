@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@jspsych/plugin-canvas-keyboard-response": "^1.1.3",
+    "chart.js": "^4.4.3"
+  }
+}
