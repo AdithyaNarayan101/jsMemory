@@ -322,16 +322,48 @@ var ITI = {
     data:{reward : (jsPsych.timelineVariable('reward_size'))}
     
   }
-  var target_hold_sequence = {
+  var target_hold_2 = {
     type: "mousetracking",
     epoch:'targer_hold',
     stimulus: '<div style="font-size:60px;">+</div>',
     broke_window_label: 'BROKE_TARG',
-    choices :['SUCCESS','FIX'],
+    choices :['SUCCESS_2','FIX'],
     size : [jsPsych.timelineVariable('target_size'),40],
     // x:jsPsych.timelineVariable('change_hue'),
     color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
     location: [jsPsych.timelineVariable('location_x_dist'),jsPsych.timelineVariable('location_y_dist'),450,280],
+    eventMonitor:'mouseover',
+    trial_duration: 1000,
+    hold_duration: 50,
+    data:{reward : (jsPsych.timelineVariable('reward_size'))}
+    
+  }
+  var target_hold_3 = {
+    type: "mousetracking",
+    epoch:'targer_hold',
+    stimulus: '<div style="font-size:60px;">+</div>',
+    broke_window_label: 'BROKE_TARG',
+    choices :['SUCCESS_3','FIX'],
+    size : [jsPsych.timelineVariable('target_size'),40],
+    // x:jsPsych.timelineVariable('change_hue'),
+    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
+    location: [jsPsych.timelineVariable('location_x_dist_2'),jsPsych.timelineVariable('location_y_dist_2'),450,280],
+    eventMonitor:'mouseover',
+    trial_duration: 1000,
+    hold_duration: 50,
+    data:{reward : (jsPsych.timelineVariable('reward_size'))}
+    
+  }
+  var target_hold_4 = {
+    type: "mousetracking",
+    epoch:'targer_hold',
+    stimulus: '<div style="font-size:60px;">+</div>',
+    broke_window_label: 'BROKE_TARG',
+    choices :['SUCCESS_4','FIX'],
+    size : [jsPsych.timelineVariable('target_size'),40],
+    // x:jsPsych.timelineVariable('change_hue'),
+    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
+    location: [jsPsych.timelineVariable('location_x_dist_3'),jsPsych.timelineVariable('location_y_dist_3'),450,280],
     eventMonitor:'mouseover',
     trial_duration: 1000,
     hold_duration: 50,
@@ -355,7 +387,7 @@ var ITI = {
     // the stimulus should be 'correct' or 'incorrect'.
     // Instead, this function will check the accuracy of the last response and use that information to set
     // the stimulus value on each trial.
-    var last_trial_data = jsPsych.data.get().last(6).values();
+    var last_trial_data = jsPsych.data.get().last(8).values();
     
     result_disp='un'
     color_outcome='red';
@@ -365,7 +397,9 @@ var ITI = {
     else if(last_trial_data[2].choice=='MISSED'){result_disp='TOO SLOW - 20 points'}
     else if(last_trial_data[3].choice!='ACQUIRE_TARG'){result_disp='TARGET 1 ERROR - 20 points'}
     else if(last_trial_data[4].choice!='SUCCESS_1'){result_disp='TARGET 1 HOLD ERROR - 20 points'}
-    else if(last_trial_data[5].choice!='SUCCESS'){result_disp='TARGET 2 ERROR - 20 points'}
+    else if(last_trial_data[5].choice!='SUCCESS_2'){result_disp='TARGET 2 ERROR - 20 points'}
+    else if(last_trial_data[6].choice!='SUCCESS_3'){result_disp='TARGET 3 ERROR - 20 points'}
+    else if(last_trial_data[7].choice!='SUCCESS_4'){result_disp='TARGET 4 ERROR - 20 points'}
     else {result_disp='SUCCESS! + ' + last_trial_data[4].reward+' points';
     num_trials=num_trials+1
     score=score+last_trial_data[4].reward;
@@ -442,7 +476,7 @@ var ITI = {
   }
 
  var test_procedure_easy = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_sequence,feedback],
+  timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_2,target_hold_3,target_hold_4,feedback],
     data:{block:'easy'},
     
     repetitions: 1,  // 1 repition of the images in the folder
@@ -466,7 +500,7 @@ var ITI = {
   }
 
   var test_procedure_hard = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_sequence,feedback],
+    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_2,target_hold_3,target_hold_4,feedback],
     repetitions: 1,  // 1 repition of the images in the folder
     timeline_variables: test_stimuli_hard,
     conditional_function: function(){

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sequential Memory Guided Reach</title>
+    <title>Retro-cue Memory Guided Reach</title>
     <script src="jspsych-6.0.4/jspsych.js"></script>
     <script src="jspsych-6.0.4/plugins/jspsych-mousetracking.js"></script>
     <script src="jspsych-6.0.4/plugins/jspsych-survey-text.js"></script>
@@ -21,6 +21,7 @@
   </head>
   <body></body>
   <script>
+
 
 
 file_name = null // file name for data file. if null, a default name consisting of the participant ID and a unique number is chosen.
@@ -56,10 +57,11 @@ for (var i = 1; i <=nMain; i++){
  rand_dist_3 = Math.floor(Math.random() * (location_x.length) + 0)
 
  all_options = [rand_target,rand_dist,rand_dist_2,rand_dist_3]
- rand_retro_cue = 0
- retro_cue = all_options[0]
+ rand_retro_cue = Math.floor(Math.random() * (all_options.length) + 0)
+ retro_cue = all_options[rand_retro_cue]
  location_x_go = location_x[retro_cue]
  location_y_go = location_y[retro_cue]
+
 
  all_hues_hard = ['200','200','200','200']
  all_hues_easy = ['200','200','200','200']
@@ -111,7 +113,7 @@ var instructions = {
 
 var instructions_easy = {
     type: 'html-keyboard-response',
-    stimulus: ' Sequential Memory Guided Reach Task <br><br> Start by moving the mouse to the blue circle <br> A few circles will flash in different locations<br><br> After the center circle changes color, go to the first location and then the second location <br> <br>Try to keep your eyes fixed at the center till it changes color <br> <br>  To Start/Continue, press y <br> To end the session, press n',
+    stimulus: ' Retro-cue Memory Guided Choice Task <br><br> Start by moving the mouse to the blue circle <br> A few circles will flash in different locations<br><br> Center circle will change color, indicating which target location should be selected <br> Red = 1st, Yellow = 2nd, Green = 3rd, LightBlue = 4th <br> Go to the target location after the center circle disappears <br> Try to keep your eyes fixed at the center till the center circle disappears <br> <br>  To Start/Continue, press y <br> To end the session, press n',
     
     // conditional_function: function(){
     // if(quit_flag){return false}
@@ -122,7 +124,7 @@ var instructions_easy = {
   }
   var instructions_hard = {
     type: 'html-keyboard-response',
-    stimulus: ' Break <br> Press SPACE to continue',
+    stimulus: 'HARD BLOCK <br> Press SPACE to continue',
     choices: [' '],
     data:{trial_status:'forced_block'}
   }
@@ -263,6 +265,19 @@ var ITI = {
     // hold_duration: 500
   } // the mousetracking part of this task occurs in a 1000x600px container-- these dimensions can be altered by changing the jspsych mousetracking plugin in the jspsych folder
   
+  var delay_pre_go = {
+    type: "mousetracking",
+    epoch:'delay',
+    stimulus:'<div style="font-size:60px;">+</div>',
+    broke_window_label: 'FALSE_START',
+    choices :['FIX','TARGET'],
+    color:[jsPsych.timelineVariable('change_hue'),'90%','60%',jsPsych.timelineVariable('reward_col'),'100%','100%'],
+    size : [40,jsPsych.timelineVariable('target_size')],
+    location: [450,280,jsPsych.timelineVariable('location_x'),jsPsych.timelineVariable('location_y')],
+    eventMonitor:'mouseover',
+    hold_duration:  1000
+    // hold_duration: 500
+  } // the mousetracking part of this task occurs in a 1000x600px container-- these dimensions can be altered by changing the jspsych mousetracking plugin in the jspsych folder
   
   var rt_catch = {
     type: "mousetracking",
@@ -270,7 +285,7 @@ var ITI = {
     stimulus:'<div style="font-size:60px;">+</div>',
     broke_window_label: 'FS_CATCH',
     choices :['FIX','TARGET'],
-    color:[jsPsych.timelineVariable('change_hue'),'90%','60%',jsPsych.timelineVariable('reward_col'),'100%','100%'],
+    color:[jsPsych.timelineVariable('change_hue'),'100%','100%',jsPsych.timelineVariable('reward_col'),'100%','100%'],
     size : [40,jsPsych.timelineVariable('target_size')],
     location: [450,280,jsPsych.timelineVariable('location_x_go'),jsPsych.timelineVariable('location_y_go')],
     eventMonitor:'mouseover',
@@ -285,7 +300,7 @@ var ITI = {
     stimulus:'<div style="font-size:60px;">+</div>',
     broke_window_label: 'HIT',
     choices :['MISSED','TARGET'],
-    color:[jsPsych.timelineVariable('change_hue'),'90%','60%',jsPsych.timelineVariable('reward_col'),'100%','100%'],
+    color:[jsPsych.timelineVariable('change_hue'),'100%','100%',jsPsych.timelineVariable('reward_col'),'100%','100%'],
     size : [40,jsPsych.timelineVariable('target_size')],
     location: [450,280,jsPsych.timelineVariable('location_x_go'),jsPsych.timelineVariable('location_y_go')],
     eventMonitor:'mouseover',
@@ -299,7 +314,7 @@ var ITI = {
     choices :['ACQUIRE_TARG','FIX'],
     size : [jsPsych.timelineVariable('target_size'),40],
     // x:jsPsych.timelineVariable('change_hue'),
-    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
+    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'100%','100%'],
     location: [jsPsych.timelineVariable('location_x_go'),jsPsych.timelineVariable('location_y_go'),450,280],
     eventMonitor:'mouseover',
     trial_duration: 400,
@@ -311,30 +326,14 @@ var ITI = {
     epoch:'targer_hold',
     stimulus: '<div style="font-size:60px;">+</div>',
     broke_window_label: 'BROKE_TARG',
-    choices :['SUCCESS_1','FIX'],
-    size : [jsPsych.timelineVariable('target_size'),40],
-    // x:jsPsych.timelineVariable('change_hue'),
-    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
-    location: [jsPsych.timelineVariable('location_x_go'),jsPsych.timelineVariable('location_y_go'),450,280],
-    eventMonitor:'mouseover',
-    trial_duration: 350,
-    hold_duration: 50,
-    data:{reward : (jsPsych.timelineVariable('reward_size'))}
-    
-  }
-  var target_hold_sequence = {
-    type: "mousetracking",
-    epoch:'targer_hold',
-    stimulus: '<div style="font-size:60px;">+</div>',
-    broke_window_label: 'BROKE_TARG',
     choices :['SUCCESS','FIX'],
     size : [jsPsych.timelineVariable('target_size'),40],
     // x:jsPsych.timelineVariable('change_hue'),
-    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'90%','60%'],
-    location: [jsPsych.timelineVariable('location_x_dist'),jsPsych.timelineVariable('location_y_dist'),450,280],
+    color:[jsPsych.timelineVariable('reward_col'),'100%','100%',jsPsych.timelineVariable('change_hue'),'100%','100%'],
+    location: [jsPsych.timelineVariable('location_x_go'),jsPsych.timelineVariable('location_y_go'),450,280],
     eventMonitor:'mouseover',
-    trial_duration: 1000,
-    hold_duration: 50,
+    trial_duration: 350,
+    hold_duration: 250,
     data:{reward : (jsPsych.timelineVariable('reward_size'))}
     
   }
@@ -355,7 +354,7 @@ var ITI = {
     // the stimulus should be 'correct' or 'incorrect'.
     // Instead, this function will check the accuracy of the last response and use that information to set
     // the stimulus value on each trial.
-    var last_trial_data = jsPsych.data.get().last(6).values();
+    var last_trial_data = jsPsych.data.get().last(5).values();
     
     result_disp='un'
     color_outcome='red';
@@ -363,9 +362,8 @@ var ITI = {
       {result_disp = 'FALSE START - 20 points' }
     else if(last_trial_data[1].choice!='FIX'){result_disp = 'FALSE START - 20 points'}
     else if(last_trial_data[2].choice=='MISSED'){result_disp='TOO SLOW - 20 points'}
-    else if(last_trial_data[3].choice!='ACQUIRE_TARG'){result_disp='TARGET 1 ERROR - 20 points'}
-    else if(last_trial_data[4].choice!='SUCCESS_1'){result_disp='TARGET 1 HOLD ERROR - 20 points'}
-    else if(last_trial_data[5].choice!='SUCCESS'){result_disp='TARGET 2 ERROR - 20 points'}
+    else if(last_trial_data[3].choice!='ACQUIRE_TARG'){result_disp='REACH ERROR - 20 points'}
+    else if(last_trial_data[4].choice!='SUCCESS'){result_disp='TARGET HOLD ERROR - 20 points'}
     else {result_disp='SUCCESS! + ' + last_trial_data[4].reward+' points';
     num_trials=num_trials+1
     score=score+last_trial_data[4].reward;
@@ -442,7 +440,7 @@ var ITI = {
   }
 
  var test_procedure_easy = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_sequence,feedback],
+    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
     data:{block:'easy'},
     
     repetitions: 1,  // 1 repition of the images in the folder
@@ -466,7 +464,7 @@ var ITI = {
   }
 
   var test_procedure_hard = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,rt_catch,rt_window,decisions,target_hold,target_hold_sequence,feedback],
+    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
     repetitions: 1,  // 1 repition of the images in the folder
     timeline_variables: test_stimuli_hard,
     conditional_function: function(){

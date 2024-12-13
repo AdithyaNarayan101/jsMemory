@@ -56,7 +56,7 @@ for (var i = 1; i <=nMain; i++){
  rand_dist_2 = Math.floor(Math.random() * (location_x.length) + 0)
  rand_dist_3 = Math.floor(Math.random() * (location_x.length) + 0)
 
- all_options = [rand_target,rand_dist,rand_dist_2,rand_dist_3]
+ all_options = [rand_target,rand_dist]
  rand_retro_cue = Math.floor(Math.random() * (all_options.length) + 0)
  retro_cue = all_options[rand_retro_cue]
  location_x_go = location_x[retro_cue]
@@ -66,7 +66,7 @@ for (var i = 1; i <=nMain; i++){
  all_hues_hard = ['200','200','200','200']
  all_hues_easy = ['200','200','200','200']
  all_hues = ['200','200','200','200','200','200']
- all_retro_cues = ['0','60','120','180']
+ all_retro_cues = ['0','120']
  rand_hue = Math.floor(Math.random() * (all_hues_hard.length) + 0)
  
  rand_time = randomExponential(1/500)+500
@@ -113,7 +113,7 @@ var instructions = {
 
 var instructions_easy = {
     type: 'html-keyboard-response',
-    stimulus: ' Retro-cue Memory Guided Choice Task <br><br> Start by moving the mouse to the blue circle <br> A few circles will flash in different locations<br><br> Center circle will change color, indicating which target location should be selected <br> Red = 1st, Yellow = 2nd, Green = 3rd, LightBlue = 4th <br> Go to the target location after the center circle disappears <br> Try to keep your eyes fixed at the center till the center circle disappears <br> <br>  To Start/Continue, press y <br> To end the session, press n',
+    stimulus: ' Retro-cue Memory Guided Choice Task <br><br> Start by moving the mouse to the blue circle <br> A few circles will flash in different locations<br><br> Center circle will change color, indicating which target location should be selected <br> <p style = "color:red;"> Red = 1st </p>  <p style = "color:green;"> Green = 2nd </p><br> Go to the target location after the center circle disappears <br> Try to keep your eyes fixed at the center till the center circle disappears <br> <br>  To Start/Continue, press y <br> To end the session, press n',
     
     // conditional_function: function(){
     // if(quit_flag){return false}
@@ -440,7 +440,7 @@ var ITI = {
   }
 
  var test_procedure_easy = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
+    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
     data:{block:'easy'},
     
     repetitions: 1,  // 1 repition of the images in the folder
@@ -464,7 +464,7 @@ var ITI = {
   }
 
   var test_procedure_hard = {
-    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_pre_distractor,distractor_2,delay_pre_distractor,distractor_3,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
+    timeline: [ ITI,fixation,delay,delay_pre_distractor,distractor,delay_post_distractor,delay_pre_go,rt_catch,rt_window,decisions,target_hold,feedback],
     repetitions: 1,  // 1 repition of the images in the folder
     timeline_variables: test_stimuli_hard,
     conditional_function: function(){
